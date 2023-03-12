@@ -35,7 +35,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "ethers": "^5.7.1",
     "hardhat": "^2.11.2",
-    "hardhat-deploy": "^0.11.15",
+    "hardhat-deploy": "^0.11.25",
     "hardhat-gas-reporter": "^1.0.9",
     "prettier": "2.7.1",
     "solidity-coverage": "^0.8.2",
@@ -45,8 +45,10 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.1",
+    "@openzeppelin/contracts-upgradeable": "^4.8.2",
     "dotenv": "^16.0.3",
     "envfile": "^6.18.0",
-    "qrcode": "^1.5.1"
+    "qrcode": "^1.5.1",
+    "solady": "^0.0.81"
   }
 }
