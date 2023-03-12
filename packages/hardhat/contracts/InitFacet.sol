@@ -3,25 +3,22 @@ pragma solidity 0.8.17;
 
 import "hardhat/console.sol";
 
-import "hardhat-deploy/solc_0.8/diamond/libraries/LibDiamond.sol";
-
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 import "hardhat-deploy/solc_0.8/diamond/interfaces/IDiamondLoupe.sol";
 
-import "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
-
-import { IERC173 } from "hardhat-deploy/solc_0.8/diamond/interfaces/IERC173.sol";
-
-import { ERC721DInternal } from "./ERC721D/ERC721DInternal.sol";
+import {IERC173} from "hardhat-deploy/solc_0.8/diamond/interfaces/IERC173.sol";
+import {IERC721Metadata} from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 
 import "./InternalFacet.sol";
-import "solady/src/utils/SSTORE2.sol";
 
 contract InitFacet is InternalFacet {
     function init() external onlyOwner {
-        if (s().contractInitialized) return;
+        if (s().isInitialized) return;
+        
+        _setName("Gas Lovers");
+        _setSymbol("GASLOVE");
         
         s().mintActive = true;
         s().mintCost = 0;

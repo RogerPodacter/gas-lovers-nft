@@ -42,7 +42,7 @@ const config: HardhatUserConfig = {
     },
     goerli: {
       url: `https://eth-goerli.alchemyapi.io/v2/${providerApiKey}`,
-      gasPrice: utils.parseUnits("30", 'gwei').toNumber(),
+      // gasPrice: utils.parseUnits("50", 'gwei').toNumber(),
       accounts: [deployerPrivateKey],
     },
     arbitrum: {

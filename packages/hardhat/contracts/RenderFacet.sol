@@ -51,17 +51,23 @@ contract RenderFacet is ERC721D, InternalFacet {
         
         (, uint index) = allPackedInfo.searchSorted(tokenPackedInfo);
         
-        rank = (s().nextTokenId - index) + 1;
+        rank = s().nextTokenId - index;
         gasPrice = uint64(tokenPackedInfo >> 192);
         timestamp = uint32(tokenPackedInfo >> 160);
         creator = address(uint160(tokenPackedInfo));
     }
     
-    function formatAsGwei(uint256 value) internal pure returns (string memory) {
-        uint256 gweiValue = value / 10**9;
-        uint256 decimals = value % 10**9;
-        string memory decimalsStr = decimals < 10**8 ? string(abi.encodePacked("0", decimals.toString())) : decimals.toString();
-        return string(abi.encodePacked(gweiValue.toString(), ".", decimalsStr, " gwei"));
+    function weiToGweiString(uint weiAmount) public pure returns (string memory) {
+        string memory wholePart = (weiAmount / 1 gwei).toString();
+        string memory decimalPart = ((weiAmount / 0.01 gwei) % 100).toString();
+        
+        if (bytes(decimalPart).length == 1) {
+            decimalPart = string.concat("0", decimalPart);
+        }
+        
+        return string.concat(
+            wholePart, ".", decimalPart
+        );
     }
     
     function _tokenSVG(
@@ -69,10 +75,14 @@ contract RenderFacet is ERC721D, InternalFacet {
         uint gasPrice,
         uint timestamp,
         address creator
-    ) internal pure returns (string memory) {
+    ) internal view returns (string memory) {
         DynamicBufferLib.DynamicBuffer memory buffer;
         
-        buffer.append(abi.encodePacked(unicode'<svg version="1.2" xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewbox="0 0 1200 1200"><foreignObject x="0" y="0" width="100%" height="100%"><div class="outer" xmlns="http://www.w3.org/1999/xhtml"><style>*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;margin:0;border:0;box-sizing:border-box}.outer{width:1200px;height:1200px;background:#eab308;display:grid;place-items:center}.inner{background:#134e4a;width:90%;height:90%;display:flex;justify-content:center;align-items:center;font-size:100px;font-family:monospace;color:#fff;flex-direction:column;justify-content:center;gap:25px}.icon{font-size:200px}.truncate{font-size:36px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;text-align:center}.wpf{font-size:80px}</style><div class="inner"><div class="icon">⛽️</div><div style="font-family: sans-serif">#', rank.toString(), ' Gas Lover</div><div class="truncate">', creator.toHexStringChecksumed(), '</div><div class="truncate" style="font-family: sans-serif; font-weight: bold;font-size: 170px;">', formatAsGwei(gasPrice),'</div><div class="wpf" style="font-family: sans-serif">Gas Price</div></div></div></foreignObject></svg>'));
+        string memory bgOpacity = string.concat('calc(1 - (', rank.toString(), ' / ', s().nextTokenId.toString(), '))');
+        
+        string memory bg = string.concat('rgba(19, 78, 74, ', bgOpacity, ')');
+        
+        buffer.append(abi.encodePacked(unicode'<svg version="1.2" xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewbox="0 0 1200 1200"><foreignObject x="0" y="0" width="100%" height="100%"><div class="outer" xmlns="http://www.w3.org/1999/xhtml"><style>*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;margin:0;border:0;box-sizing:border-box}.outer{width:1200px;height:1200px;background:#eab308;display:grid;place-items:center}.inner{background:', bg, unicode';width:90%;height:90%;display:flex;justify-content:center;align-items:center;font-size:100px;font-family:monospace;color:#fff;flex-direction:column;justify-content:center;gap:25px}.icon{font-size:200px}.truncate{font-size:36px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;text-align:center}.wpf{font-size:80px}</style><div class="inner"><div class="icon">⛽️</div><div style="font-family: sans-serif">#', rank.toString(), ' Gas Lover</div><div class="truncate">', creator.toHexStringChecksumed(), '</div><div class="truncate" style="font-family: sans-serif; font-weight: bold;font-size: 170px;">', weiToGweiString(gasPrice),'</div><div class="wpf" style="font-family: sans-serif">Gas Price</div></div></div></foreignObject></svg>'));
         
         return string.concat(
                 "data:image/svg+xml;base64,",
