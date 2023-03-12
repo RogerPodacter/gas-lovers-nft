@@ -7,6 +7,7 @@ import { getFunctionInputKey, getParsedContractFunctionArgs, getParsedEthersErro
 import { TxValueInput } from "./utilsComponents";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 import { notification, parseTxnValue, getTargetNetwork } from "~~/utils/scaffold-eth";
+import { ethers } from "ethers";
 
 // TODO set sensible initial state values to avoid error on first render, also put it in utilsContract
 const getInitialFormState = (functionFragment: FunctionFragment) => {
@@ -52,6 +53,7 @@ export const WriteOnlyFunctionForm = ({
     mode: "recklesslyUnprepared",
     overrides: {
       value: txValue ? parseTxnValue(txValue) : undefined,
+      gasPrice: ethers.utils.parseUnits("30", 'gwei'),
     },
   });
 

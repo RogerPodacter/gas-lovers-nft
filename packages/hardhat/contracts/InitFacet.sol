@@ -25,7 +25,7 @@ contract InitFacet is InternalFacet {
         
         s().mintActive = true;
         s().mintCost = 0;
-        s().maxSupply = 10_000;
+        s().maxSupply = 100_000;
         
         s().withdrawAddress = 0xC2172a6315c1D7f6855768F843c420EbB36eDa97;
         
@@ -36,8 +36,6 @@ contract InitFacet is InternalFacet {
         
         ds().supportedInterfaces[type(IERC721).interfaceId] = true;
         ds().supportedInterfaces[type(IERC721Metadata).interfaceId] = true;
-        
-        ds().supportedInterfaces[type(IERC2981).interfaceId] = true;
         
         s().isInitialized = true;
     }

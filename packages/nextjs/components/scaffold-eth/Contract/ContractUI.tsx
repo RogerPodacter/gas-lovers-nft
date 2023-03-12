@@ -54,6 +54,11 @@ const ContractUI = ({ contractName, className = "" }: TContractUIProps) => {
     [contract, displayedContractFunctions],
   );
 
+  if (typeof window !== "undefined") {
+    window.contracts ||= {}
+    window.contracts[contractName] = contract
+  }
+
   if (deployedContractLoading) {
     return (
       <div className="mt-14">

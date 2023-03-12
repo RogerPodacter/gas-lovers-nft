@@ -1,5 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+import { ethers } from "hardhat";
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -29,6 +30,14 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       args: []
     },
   })
+  
+  var GasLover = await ethers.getContract("GasLover");
+  
+  for (var i = 0; i < 10; i++) {
+    await GasLover.mint({
+      gasPrice: ethers.utils.parseUnits(Math.round((Math.random() * 100)).toString(), "gwei"),
+    });
+  }
 };
 
 export default deployYourContract;

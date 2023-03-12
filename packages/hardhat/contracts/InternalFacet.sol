@@ -16,24 +16,16 @@ import { IERC173 } from "hardhat-deploy/solc_0.8/diamond/interfaces/IERC173.sol"
 
 import { ERC721DInternal } from "./ERC721D/ERC721DInternal.sol";
 
-import {OperatorFilterer} from "closedsea/src/OperatorFilterer.sol";
-
-import {ERC2981} from "@solidstate/contracts/token/common/ERC2981/ERC2981.sol";
-import {IERC2981} from "@solidstate/contracts/interfaces/IERC2981.sol";
-
-import {ERC2981Storage} from "@solidstate/contracts/token/common/ERC2981/ERC2981Storage.sol";
-
-import "@solidstate/contracts/token/ERC721/metadata/IERC721Metadata.sol";
-import {AccessControlInternal} from "@solidstate/contracts/access/access_control/AccessControlInternal.sol";
-
 import "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
+
+import {IERC721Metadata} from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 
 import {LibBitmap} from "solady/src/utils/LibBitmap.sol";
 
 struct ContractStorage {
     bool contractInitialized;
-    uint[] tokenIdToPriorityFee;
-    uint16 maxSupply;
+    uint[] tokenIdToPackedInfo;
+    uint24 maxSupply;
     bool mintActive;
     address withdrawAddress;
     uint mintCost;
