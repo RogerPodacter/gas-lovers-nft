@@ -9,7 +9,7 @@ import "./WithStorage.sol";
 
 import "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
 
-contract MintFacet is ERC721AUpgradeableInternal, UsingDiamondOwner, WithStorage {
+contract MintFacet is ERC721AUpgradeableInternal, WithStorage {
     event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
     
     function mint() external {
@@ -29,13 +29,14 @@ contract MintFacet is ERC721AUpgradeableInternal, UsingDiamondOwner, WithStorage
         if (tokenId != 0) emit BatchMetadataUpdate(0, tokenId - 1);
     }
     
-    function packTokenInfo(uint gasPrice, uint timestamp, address creator) public pure returns (uint) {
+    function packTokenInfo(uint gasPrice, uint timestamp, address creator) internal pure returns (uint) {
         uint packedGasPrice = uint256(uint64(gasPrice)) << 192;
         uint packedTimestamp = uint256(uint32(timestamp)) << 160;
         uint packedCreator = uint256(uint160(creator));
         
         return packedGasPrice | packedTimestamp | packedCreator;
     }
+
     
     function maxSupply() external view returns (uint) {
         return s().maxSupply;

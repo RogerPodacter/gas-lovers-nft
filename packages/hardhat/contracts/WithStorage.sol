@@ -11,7 +11,7 @@ struct ContractStorage {
 
 contract WithStorage {
     function s() internal pure returns (ContractStorage storage cs) {
-        bytes32 position = keccak256("gas.lovers.nft.contract.storagev2");
+        bytes32 position = keccak256("gas.lovers.nft.contract.storage");
         assembly {
            cs.slot := position
         }

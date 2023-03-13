@@ -19,10 +19,10 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     waitConfirmations: 1,
     // upgradeIndex: 0,
     facets: [
-      "ERC721AUpgradeable",
       "InitFacet",
       "MintFacet",
       "RenderFacet",
+      "ERC721AUpgradeable",
     ],
     execute: {
       contract: 'InitFacet',

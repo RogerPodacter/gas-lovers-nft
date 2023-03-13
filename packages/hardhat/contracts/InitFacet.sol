@@ -22,7 +22,7 @@ contract InitFacet is ERC721AUpgradeableInternal, UsingDiamondOwner, WithStorage
         ERC721AStorage.layout()._name = "Gas Lovers";
         ERC721AStorage.layout()._symbol = "GASLOVE";
         
-        s().maxSupply = 100_000;
+        s().maxSupply = 10_000;
         
         s().withdrawAddress = 0xC2172a6315c1D7f6855768F843c420EbB36eDa97;
         

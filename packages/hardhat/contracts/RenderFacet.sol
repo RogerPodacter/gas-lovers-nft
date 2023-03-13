@@ -13,11 +13,9 @@ import { ERC721AUpgradeableInternal } from "./ERC721AUpgradeable/ERC721AUpgradea
 import "./WithStorage.sol";
 
 contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
-    using LibSort for *;
+    using LibSort for uint[];
     using DynamicBufferLib for DynamicBufferLib.DynamicBuffer;
     using LibString for *;
-
-    // contract URI
 
     function tokenURI(uint256 tokenId) public view returns (string memory) {
         require(_exists(tokenId), "Token doesn't exist");
@@ -43,7 +41,9 @@ contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
         );
     }
     
-    function getAllTokenInfo(uint tokenId) internal view returns (uint rank, uint64 gasPrice, uint32 timestamp, address creator) {
+    function getAllTokenInfo(uint tokenId) internal view returns (
+        uint rank, uint64 gasPrice, uint32 timestamp, address creator
+    ) {
         uint[] memory allPackedInfo = s().tokenIdToPackedInfo;
         uint tokenPackedInfo = allPackedInfo[tokenId];
         
@@ -57,7 +57,7 @@ contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
         creator = address(uint160(tokenPackedInfo));
     }
     
-    function weiToGweiString(uint weiAmount) public pure returns (string memory) {
+    function weiToGweiString(uint weiAmount) internal pure returns (string memory) {
         string memory wholePart = (weiAmount / 1 gwei).toString();
         string memory decimalPart = ((weiAmount / 0.01 gwei) % 100).toString();
         
