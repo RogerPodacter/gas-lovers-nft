@@ -36,13 +36,6 @@ contract ERC721D is ERC721DInternal {
         return _symbol();
     }
 
-    function tokenURI(uint256 tokenId) public view virtual returns (string memory) {
-        _requireMinted(tokenId);
-
-        string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
-    }
-
     function approve(address to, uint256 tokenId) public virtual {
         address owner = ownerOf(tokenId);
         require(to != owner, "ERC721: approval to current owner");

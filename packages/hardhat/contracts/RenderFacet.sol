@@ -8,19 +8,19 @@ import "solady/src/utils/Base64.sol";
 import "solady/src/utils/LibString.sol";
 import "solady/src/utils/LibSort.sol";
 import "solady/src/utils/SSTORE2.sol";
-import { ERC721D } from "./ERC721D/ERC721D.sol";
+import { ERC721AUpgradeableInternal } from "./ERC721AUpgradeable/ERC721AUpgradeableInternal.sol";
 
-import "./InternalFacet.sol";
+import "./WithStorage.sol";
 
-contract RenderFacet is ERC721D, InternalFacet {
+contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
     using LibSort for *;
     using DynamicBufferLib for DynamicBufferLib.DynamicBuffer;
     using LibString for *;
 
     // contract URI
 
-    function tokenURI(uint256 tokenId) public view override(ERC721D) returns (string memory) {
-        require(_exists(tokenId));
+    function tokenURI(uint256 tokenId) public view returns (string memory) {
+        require(_exists(tokenId), "Token doesn't exist");
         
         (uint rank, uint gasPrice, uint timestamp, address creator) = getAllTokenInfo(tokenId);
         
@@ -51,7 +51,7 @@ contract RenderFacet is ERC721D, InternalFacet {
         
         (, uint index) = allPackedInfo.searchSorted(tokenPackedInfo);
         
-        rank = s().nextTokenId - index;
+        rank = _nextTokenId() - index;
         gasPrice = uint64(tokenPackedInfo >> 192);
         timestamp = uint32(tokenPackedInfo >> 160);
         creator = address(uint160(tokenPackedInfo));
@@ -78,7 +78,7 @@ contract RenderFacet is ERC721D, InternalFacet {
     ) internal view returns (string memory) {
         DynamicBufferLib.DynamicBuffer memory buffer;
         
-        string memory bgOpacity = string.concat('calc(1 - (', rank.toString(), ' / ', s().nextTokenId.toString(), '))');
+        string memory bgOpacity = string.concat('calc(1 - (', rank.toString(), ' / ', _nextTokenId().toString(), '))');
         
         string memory bg = string.concat('rgba(19, 78, 74, ', bgOpacity, ')');
         
