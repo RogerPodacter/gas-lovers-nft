@@ -52,8 +52,7 @@ export const WriteOnlyFunctionForm = ({
     args: getParsedContractFunctionArgs(form),
     mode: "recklesslyUnprepared",
     overrides: {
-      value: txValue ? parseTxnValue(txValue) : undefined,
-      gasPrice: ethers.utils.parseUnits("30", 'gwei'),
+      value: txValue ? parseTxnValue(txValue) : undefined
     },
   });
 
