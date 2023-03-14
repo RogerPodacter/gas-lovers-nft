@@ -29,14 +29,6 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       args: []
     },
   })
-  
-  var GasLover = await ethers.getContract("GasLover");
-  
-  // for (var i = 0; i < 2; i++) {
-  //   await (await GasLover.mint({
-  //     // gasPrice: ethers.utils.parseUnits(Math.round((Math.random() * 100)).toString(), "gwei"),
-  //   })).wait();
-  // }
 };
 
 export default deployYourContract;

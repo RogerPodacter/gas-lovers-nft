@@ -4,6 +4,8 @@ import { BugAntIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import React from "react";
 
+import { ContractUI } from "~~/components/scaffold-eth";
+
 const Home: NextPage = () => {
   return (
     <>
@@ -15,9 +17,9 @@ const Home: NextPage = () => {
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="px-5">
           <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">scaffold-eth 2</span>
+            <span className="block text-2xl mb-2">Welcome Gas Lovers!</span>
           </h1>
+          <ContractUI contractName="GasLover" />
           <p className="text-center text-lg">
             Get started by editing{" "}
             <code className="italic bg-base-300 text-base font-bold">packages/nextjs/pages/index.tsx</code>

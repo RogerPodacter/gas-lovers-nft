@@ -46,11 +46,11 @@ const ContractUI = ({ contractName, className = "" }: TContractUIProps) => {
   }, [contract, displayedContractFunctions, refreshDisplayVariables]);
 
   const contractMethodsDisplay = useMemo(
-    () => getContractReadOnlyMethodsWithParams(contract, displayedContractFunctions),
+    () => getContractReadOnlyMethodsWithParams(contract, displayedContractFunctions.filter(i => i.name == 'tokenSVG' || i.name == 'tokenURI')),
     [contract, displayedContractFunctions],
   );
   const contractWriteMethods = useMemo(
-    () => getContractWriteMethods(contract, displayedContractFunctions, setRefreshDisplayVariables),
+    () => getContractWriteMethods(contract, displayedContractFunctions.filter(i => i.name == 'mint'), setRefreshDisplayVariables),
     [contract, displayedContractFunctions],
   );
 
