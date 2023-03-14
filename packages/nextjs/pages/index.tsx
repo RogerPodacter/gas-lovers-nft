@@ -13,8 +13,29 @@ const Home: NextPage = () => {
         <title>Scaffold-eth App</title>
         <meta name="description" content="Created with 🏗 scaffold-eth" />
       </Head>
-
       <div className="flex items-center flex-col flex-grow pt-10">
+        {/* <div className="aspect-square w-[500px] bg-[#eab308] grid place-items-center font-[helvetica_neue]">
+          <div className="w-[100%] p-[3%] aspect-square bg-[#0c4a6e] grid grid-rows-3 place-items-center overflow-hidden">
+            <div className="flex flex-col justify-center items-center place-self-start w-full">
+              <div className="text-3xl">33.45 gwei</div>
+              <div className="text-sm">Mint Gas Price</div>
+            </div>
+            <div className="flex flex-col justify-center items-center">
+                <div className="text-[rgba(255,255,255,0)] text-9xl font-bold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text">#12</div>
+                <div className="text-sm">Gas Price Ranking</div>
+            </div>
+            <div className="flex flex-col justify-between place-self-end w-full">
+              <div className="flex flex-col justify-center items-center">
+                <div className="text-sm">Minter</div>
+                <div className="text-lg">0xC2172a6315c1D7f6855768F843c420EbB36eDa97</div>
+              </div>
+            </div>
+
+          </div>
+          
+        </div> */}
+        
+        
         <div className="px-5">
           <h1 className="text-center mb-8">
             <span className="block text-2xl mb-2">Welcome Gas Lovers!</span>

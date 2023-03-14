@@ -63,7 +63,7 @@ export const ReadOnlyFunctionForm = ({ functionFragment, contractAddress }: TRea
           {result !== null && result !== undefined && (
             <span className="block bg-secondary rounded-3xl text-sm px-4 py-1.5 break-all">
               {result.startsWith("data:image/svg+xml;base64,") && <img
-              className="w-48 aspect-square"
+              className="w-[375px] aspect-square"
               
               src={result}>
               </img>}
