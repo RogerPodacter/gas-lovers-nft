@@ -10,16 +10,6 @@ contract MintFacet is ERC721AUpgradeableInternal, WithStorage {
     
     event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
     
-// struct GasLoverStorage {
-//     uint maxSupply;
-// }
-
-// GasLoverStorage private glStorage;
-
-// function s() internal view returns (GasLoverStorage storage) {
-//     return glStorage;
-// }
-    
     function mint() external {
         GasLoverStorage storage gs = s();
         
