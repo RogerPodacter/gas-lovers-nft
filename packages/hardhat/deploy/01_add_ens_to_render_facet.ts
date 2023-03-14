@@ -17,27 +17,19 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
     log: true,
     waitConfirmations: 1,
-    upgradeIndex: 0,
+    upgradeIndex: 1,
     facets: [
       "InitFacet",
       "MintFacet",
-      "RenderFacet",
+      "RenderFacetWithENS",
       "ERC721AUpgradeable",
     ],
     execute: {
-      contract: 'InitFacet',
-      methodName: 'init',
+      contract: 'RenderFacetWithENS',
+      methodName: 'initENS',
       args: []
     },
   })
-  
-  var GasLover = await ethers.getContract("GasLover");
-  
-  // for (var i = 0; i < 2; i++) {
-  //   await (await GasLover.mint({
-  //     // gasPrice: ethers.utils.parseUnits(Math.round((Math.random() * 100)).toString(), "gwei"),
-  //   })).wait();
-  // }
 };
 
 export default deployYourContract;

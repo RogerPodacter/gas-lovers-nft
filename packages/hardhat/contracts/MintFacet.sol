@@ -5,8 +5,6 @@ import "hardhat/console.sol";
 import { ERC721AUpgradeableInternal } from "./ERC721AUpgradeable/ERC721AUpgradeableInternal.sol";
 
 import "./WithStorage.sol";
-// import "solady/src/utils/SafeTransferLib.sol";
-
 import "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
 
 contract MintFacet is ERC721AUpgradeableInternal, WithStorage {
@@ -41,9 +39,4 @@ contract MintFacet is ERC721AUpgradeableInternal, WithStorage {
     function maxSupply() external view returns (uint) {
         return s().maxSupply;
     }
-    
-    // using SafeTransferLib for address;
-    // function withdraw() external onlyOwner {
-    //     s().withdrawAddress.forceSafeTransferETH(address(this).balance);
-    // }
 }
