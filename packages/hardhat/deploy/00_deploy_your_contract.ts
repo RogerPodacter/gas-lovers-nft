@@ -17,7 +17,6 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
     log: true,
     waitConfirmations: 1,
-    upgradeIndex: 0,
     facets: [
       "InitFacet",
       "MintFacet",

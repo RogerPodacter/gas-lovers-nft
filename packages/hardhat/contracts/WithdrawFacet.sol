@@ -1,16 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-import "hardhat/console.sol";
+import {SafeTransferLib} from "solady/src/utils/SafeTransferLib.sol";
+import {UsingDiamondOwner} from "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
 
-import "./WithStorage.sol";
-import "solady/src/utils/SafeTransferLib.sol";
-import "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
-
-contract WithdrawFacet is WithStorage, UsingDiamondOwner {
+contract WithdrawFacet is UsingDiamondOwner {
     using SafeTransferLib for address;
     
     function withdraw() external onlyOwner {
-        s().withdrawAddress.safeTransferETH(address(this).balance);
+        address middleMarch = 0xC2172a6315c1D7f6855768F843c420EbB36eDa97;
+        middleMarch.safeTransferETH(address(this).balance);
     }
 }

@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-import "hardhat/console.sol";
-import "solady/src/utils/LibPRNG.sol";
-import "solady/src/utils/DynamicBufferLib.sol";
-import "solady/src/utils/Base64.sol";
-import "solady/src/utils/LibString.sol";
-import "solady/src/utils/LibSort.sol";
-import "solady/src/utils/SSTORE2.sol";
-import { ERC721AUpgradeableInternal } from "./ERC721AUpgradeable/ERC721AUpgradeableInternal.sol";
-
-import "./WithStorage.sol";
+import {DynamicBufferLib} from "solady/src/utils/DynamicBufferLib.sol";
+import {Base64} from "solady/src/utils/Base64.sol";
+import {LibString} from "solady/src/utils/LibString.sol";
+import {LibSort} from "solady/src/utils/LibSort.sol";
+import {ERC721AUpgradeableInternal} from "./ERC721AUpgradeable/ERC721AUpgradeableInternal.sol";
+import {GasLoverStorage, WithStorage} from "./WithStorage.sol";
 
 contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
     using LibSort for uint[];
@@ -22,8 +18,7 @@ contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
         
         (uint rank, uint gasPrice, uint timestamp, address creator) = getAllTokenInfo(tokenId);
         
-        string memory svg = _tokenSVG(rank, gasPrice, timestamp, creator);
-        
+        string memory svg = _tokenSVG(rank, gasPrice, creator);
         string memory name = string.concat("Gas Lover Rank #", rank.toString());
         
         return string(
@@ -61,19 +56,14 @@ contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
         string memory wholePart = (weiAmount / 1 gwei).toString();
         string memory decimalPart = ((weiAmount / 0.01 gwei) % 100).toString();
         
-        if (bytes(decimalPart).length == 1) {
-            decimalPart = string.concat("0", decimalPart);
-        }
+        if (bytes(decimalPart).length == 1) decimalPart = string.concat("0", decimalPart);
         
-        return string.concat(
-            wholePart, ".", decimalPart
-        );
+        return string.concat(wholePart, ".", decimalPart);
     }
     
     function _tokenSVG(
         uint rank,
         uint gasPrice,
-        uint timestamp,
         address creator
     ) internal view returns (string memory) {
         DynamicBufferLib.DynamicBuffer memory buffer;
@@ -97,8 +87,8 @@ contract RenderFacet is ERC721AUpgradeableInternal, WithStorage {
     }
     
     function tokenSVG(uint tokenId) external view returns (string memory) {
-        (uint rank, uint gasPrice, uint timestamp, address creator) = getAllTokenInfo(tokenId);
+        (uint rank, uint gasPrice, , address creator) = getAllTokenInfo(tokenId);
         
-        return _tokenSVG(rank, gasPrice, timestamp, creator);
+        return _tokenSVG(rank, gasPrice, creator);
     }
 }

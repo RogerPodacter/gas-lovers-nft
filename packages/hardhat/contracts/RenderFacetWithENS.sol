@@ -1,22 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-import "hardhat/console.sol";
-import "solady/src/utils/LibPRNG.sol";
-import "solady/src/utils/DynamicBufferLib.sol";
-import "solady/src/utils/Base64.sol";
-import "solady/src/utils/LibString.sol";
-import "solady/src/utils/LibSort.sol";
-import "solady/src/utils/SSTORE2.sol";
-import { ERC721AUpgradeableInternal } from "./ERC721AUpgradeable/ERC721AUpgradeableInternal.sol";
-
-import "./WithStorage.sol";
-
-import '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
-import '@ensdomains/ens-contracts/contracts/registry/ReverseRegistrar.sol';
-import '@ensdomains/ens-contracts/contracts/resolvers/Resolver.sol';
-
-import "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
+import {DynamicBufferLib} from "solady/src/utils/DynamicBufferLib.sol";
+import {Base64} from "solady/src/utils/Base64.sol";
+import {LibString} from "solady/src/utils/LibString.sol";
+import {LibSort} from "solady/src/utils/LibSort.sol";
+import {ERC721AUpgradeableInternal} from "./ERC721AUpgradeable/ERC721AUpgradeableInternal.sol";
+import {GasLoverStorage, WithStorage} from "./WithStorage.sol";
+import {UsingDiamondOwner} from "hardhat-deploy/solc_0.8/diamond/UsingDiamondOwner.sol";
+import {ENS} from '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
+import {ReverseRegistrar} from '@ensdomains/ens-contracts/contracts/registry/ReverseRegistrar.sol';
+import {Resolver} from '@ensdomains/ens-contracts/contracts/resolvers/Resolver.sol';
 
 contract RenderFacetWithENS is ERC721AUpgradeableInternal, WithStorage, UsingDiamondOwner {
     using LibSort for uint[];
@@ -58,7 +52,7 @@ contract RenderFacetWithENS is ERC721AUpgradeableInternal, WithStorage, UsingDia
     }
     
     function initENS() external onlyOwner {
-        emit BatchMetadataUpdate(0, _nextTokenId() - 1);
+        if (_nextTokenId() > 0) emit BatchMetadataUpdate(0, _nextTokenId() - 1);
     }
 
     function tokenURI(uint256 tokenId) public view returns (string memory) {
@@ -66,8 +60,7 @@ contract RenderFacetWithENS is ERC721AUpgradeableInternal, WithStorage, UsingDia
         
         (uint rank, uint gasPrice, uint timestamp, address creator) = getAllTokenInfo(tokenId);
         
-        string memory svg = _tokenSVG(rank, gasPrice, timestamp, creator);
-        
+        string memory svg = _tokenSVG(rank, gasPrice, creator);
         string memory name = string.concat("Gas Lover Rank #", rank.toString());
         
         return string(
@@ -105,19 +98,14 @@ contract RenderFacetWithENS is ERC721AUpgradeableInternal, WithStorage, UsingDia
         string memory wholePart = (weiAmount / 1 gwei).toString();
         string memory decimalPart = ((weiAmount / 0.01 gwei) % 100).toString();
         
-        if (bytes(decimalPart).length == 1) {
-            decimalPart = string.concat("0", decimalPart);
-        }
+        if (bytes(decimalPart).length == 1) decimalPart = string.concat("0", decimalPart);
         
-        return string.concat(
-            wholePart, ".", decimalPart
-        );
+        return string.concat(wholePart, ".", decimalPart);
     }
     
     function _tokenSVG(
         uint rank,
         uint gasPrice,
-        uint timestamp,
         address creator
     ) internal view returns (string memory) {
         DynamicBufferLib.DynamicBuffer memory buffer;
@@ -141,8 +129,8 @@ contract RenderFacetWithENS is ERC721AUpgradeableInternal, WithStorage, UsingDia
     }
     
     function tokenSVG(uint tokenId) external view returns (string memory) {
-        (uint rank, uint gasPrice, uint timestamp, address creator) = getAllTokenInfo(tokenId);
+        (uint rank, uint gasPrice, , address creator) = getAllTokenInfo(tokenId);
         
-        return _tokenSVG(rank, gasPrice, timestamp, creator);
+        return _tokenSVG(rank, gasPrice, creator);
     }
 }
