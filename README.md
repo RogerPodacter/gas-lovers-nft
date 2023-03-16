@@ -2,8 +2,9 @@
 
 Gas Lovers was created as part of a step-by-step tutorial for helping people create Diamond Pattern contracts in this article.
 
-- You can read the article here.
-- The mainnet [OpenSea page is here](https://opensea.io/collection/gas-lovers).
+- You can [read the article here](https://medium.com/@dumbnamenumbers/a-step-by-step-guide-to-using-the-diamond-standard-eip-2535-to-create-and-upgrade-an-nft-mar-b4093a46b818)
+- A version of [this app is deployed here](https://gaslovers.app/)
+- The mainnet [OpenSea page is here](https://opensea.io/collection/gas-lovers)
 
 Gas Lovers is also the contemporary mint degen culture version of this Andy Warhol Quote:
 
